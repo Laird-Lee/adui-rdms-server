@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  db:
+    container_name: adui-rdms-mysql
+    image: mysql
+    command: >
+      mysqld
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --sql-mode=
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      MYSQL_DATABASE: ${DB_NAME:-adui}
+      MYSQL_USER: ${DB_USER:-adui}
+      MYSQL_PASSWORD: ${DB_PASS:-adui_pass}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS:-root_pass}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$$MYSQL_ROOT_PASSWORD | grep 'mysqld is alive'"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  redis:
+    container_name: adui-rdms-redis
+    image: redis:latest
+    command: >
+      sh -c "
+      mkdir -p /usr/local/etc/redis &&
+      if [ -n \"${REDIS_PASSWORD}\" ]; then
+        echo 'requirepass ${REDIS_PASSWORD}' > /usr/local/etc/redis/redis.conf;
+        echo 'appendonly yes' >> /usr/local/etc/redis/redis.conf;
+        exec redis-server /usr/local/etc/redis/redis.conf;
+      else
+        exec redis-server --appendonly yes;
+      fi"
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "if [ -n \"$REDIS_PASSWORD\" ]; then redis-cli -a \"$REDIS_PASSWORD\" ping | grep PONG; else redis-cli ping | grep PONG; fi"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  redis_data:

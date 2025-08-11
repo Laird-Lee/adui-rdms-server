@@ -1,0 +1,27 @@
+# 本地开发环境不再使用应用容器，仅使用 Docker 跑 MySQL 与 Redis。
+# 该文件留作可选用途（例如 CI 或临时容器化运行），不会被当前 docker-compose 引用。
+
+# syntax=docker/dockerfile:1.6
+FROM node:20-alpine
+
+# 启用 corepack 以使用 pnpm（仅当你选择使用此容器来运行应用时）
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+RUN corepack enable
+
+WORKDIR /usr/src/app
+
+# 可选：当你需要用容器运行应用（非当前方案）时，取消下面注释并构建
+# 1) 仅拷贝包管理文件用于依赖缓存
+# COPY package.json pnpm-lock.yaml* ./
+# RUN --mount=type=cache,target=/root/.local/share/pnpm/store pnpm install
+#
+# 2) 拷贝源码（或在 docker-compose 中通过 volumes 挂载源码）
+# COPY . .
+#
+# 暴露开发端口
+EXPOSE 3000
+
+# 缺省不执行任何命令（保持为占位/可扩展）
+# 需要时可在 docker run 或 docker-compose 中指定启动命令：
+# 例如：pnpm run start:dev
+CMD ["node", "-e", "console.log('This Dockerfile.dev is a placeholder for optional containerized runs. In local dev, run the app on host and use docker-compose for MySQL/Redis only.')"]

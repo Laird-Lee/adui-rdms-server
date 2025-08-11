@@ -20,6 +20,10 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@/src/*": ["src/*"],   // 支持从 "@/src/..." 导入
+      "@/*": ["src/*"]        // 常用写法：从 "@/..." 直接指向 src
+    }
   }
 }
