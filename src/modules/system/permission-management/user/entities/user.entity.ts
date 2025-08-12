@@ -8,7 +8,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { BaseEntity } from '@/common/database/entities';
-import { Dept } from '@/modules/system/org-structure/entities/dept.entity';
+import { Dept } from '@/modules/system/org-structure/dept/entities/dept.entity';
 import { Position } from '@/modules/system/org-structure/entities/position.entity';
 import { Role } from '@/modules/system/permission-management/entities/role.entity';
 

@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { TypeOrmRootModule } from '@/common/database/typeorm.module';
 import { RedisModule } from '@/common/redis/redis.module';
 import { UserModule } from './modules/system/permission-management/user/user.module';
+import { DeptModule } from './modules/system/org-structure/dept/dept.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UserModule } from './modules/system/permission-management/user/user.mod
     TypeOrmRootModule,
     RedisModule,
     UserModule,
+    DeptModule,
   ],
   controllers: [AppController],
   providers: [AppService],
