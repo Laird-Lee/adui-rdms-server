@@ -6,6 +6,7 @@ import { TypeOrmRootModule } from '@/common/database/typeorm.module';
 import { RedisModule } from '@/common/redis/redis.module';
 import { UserModule } from './modules/system/permission-management/user/user.module';
 import { DeptModule } from './modules/system/org-structure/dept/dept.module';
+import { DictModule } from './modules/system/dict/dict.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { DeptModule } from './modules/system/org-structure/dept/dept.module';
     RedisModule,
     UserModule,
     DeptModule,
+    DictModule,
   ],
   controllers: [AppController],
   providers: [AppService],

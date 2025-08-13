@@ -119,9 +119,9 @@ export class DeptService {
     // 只取构建树所需字段并保持稳定排序
     const rows = await this.repo
       .createQueryBuilder('d')
-      .select(['d.id', 'd.name', 'd.parent_id', 'd.sort', 'd.created_at'])
+      .select(['d.id', 'd.name', 'd.parentId', 'd.sort', 'd.created_at'])
       .orderBy('d.sort', 'ASC')
-      .addOrderBy('d.created_at', 'ASC')
+      .addOrderBy('d.createdAt', 'ASC')
       .getRawMany<{
         d_id: string;
         d_name: string;
@@ -190,7 +190,7 @@ export class DeptService {
   async tree(): Promise<DeptTreeDto[]> {
     // 查询构建树所需字段（展开 Dept 的基础字段）
     const rows = await this.repo.find({
-      order: { sort: 'ASC', created_at: 'ASC' },
+      order: { sort: 'ASC', createdAt: 'ASC' },
       loadRelationIds: false,
     });
 
@@ -204,7 +204,7 @@ export class DeptService {
 
     for (const r of rows) {
       const node = map.get(r.id)!;
-      const pid = r.parent_id ?? '';
+      const pid = r.parentId ?? '';
       if (pid && map.has(pid)) {
         const parent = map.get(pid)!;
         if (!parent.children) parent.children = [];

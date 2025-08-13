@@ -8,6 +8,7 @@ import { HttpLoggingInterceptor } from './common/interceptors/http-logging.inter
 import { ResponseTransformInterceptor } from './common/interceptors/response.interceptor';
 import { AllExceptionsFilter } from './common/filters/http-exception.filter';
 import { CamelCaseInterceptor } from '@/common/interceptors/camel-case.interceptor';
+import { ClassSerializerInterceptor } from '@nestjs/common';
 
 function getLocalIp(): string {
   const ifaces = os.networkInterfaces();
@@ -53,6 +54,13 @@ async function bootstrap() {
     new ResponseTransformInterceptor(app.get(Reflector)),
   );
   app.useGlobalInterceptors(new CamelCaseInterceptor());
+  app.useGlobalInterceptors(
+    new ClassSerializerInterceptor(app.get(Reflector), {
+      enableCircularCheck: false,
+      exposeUnsetFields: false,
+    }),
+  );
+
   app.useGlobalFilters(new AllExceptionsFilter(logger));
 
   // 读取并规范化接口前缀

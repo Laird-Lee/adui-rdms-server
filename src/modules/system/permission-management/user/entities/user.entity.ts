@@ -12,7 +12,7 @@ import { Dept } from '@/modules/system/org-structure/dept/entities/dept.entity';
 import { Position } from '@/modules/system/org-structure/entities/position.entity';
 import { Role } from '@/modules/system/permission-management/entities/role.entity';
 
-@Entity({ name: 'user' /* MySQL: 用户信息表 */ })
+@Entity({ name: 'user', comment: '用户信息表' })
 export class User extends BaseEntity {
   @Column({
     type: 'varchar',
