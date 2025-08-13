@@ -1,8 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { DictService } from './dict.service';
 import { CreateDictDto } from './dto/create-dict.dto';
 import { UpdateDictDto } from './dto/update-dict.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('字典相关')
 @Controller('dict')
 export class DictController {
   constructor(private readonly dictService: DictService) {}

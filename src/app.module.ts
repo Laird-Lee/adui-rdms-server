@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmRootModule } from '@/common/database/typeorm.module';
 import { RedisModule } from '@/common/redis/redis.module';
 import { UserModule } from './modules/system/permission-management/user/user.module';
@@ -25,7 +23,5 @@ import { DictModule } from './modules/system/dict/dict.module';
     DeptModule,
     DictModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
